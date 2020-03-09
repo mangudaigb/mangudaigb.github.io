@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Linux Namespaces &middot; Jibitesh Prasad</title>
+        <meta name="description" content="Namespaces are a feature of the linux kernel that partitions resources to let a process see only a set of resources attached to its namespace, while another set of processes sees a different set of resources. Resources can be physical or virtual in nature. The Linux Kernel provides 6 types of namespaces: pid, net, mnt, uts, ipc and user.
+A namespace&rsquo;s networking can range from none at all to full access to the system&rsquo;s capabilities.">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.66.0" />
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="Linux Namespaces">
+<meta property="og:description" content="Namespaces are a feature of the linux kernel that partitions resources to let a process see only a set of resources attached to its namespace, while another set of processes sees a different set of resources. Resources can be physical or virtual in nature. The Linux Kernel provides 6 types of namespaces: pid, net, mnt, uts, ipc and user.
+A namespace&rsquo;s networking can range from none at all to full access to the system&rsquo;s capabilities.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://example.org/posts/linux-namespaces/">
+        <link rel="stylesheet" href="http://example.org/dist/styles.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
+        
+        
+        
+    </head>
+    <body>
+        
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a title="Mangudaigb Tech Corner" href="http://example.org/">Mangudaigb Tech Corner</a>
+                            </h1>
+                        
+                        <a class="button-square" href="http://example.org/index.xml"><i class="fa fa-rss"></i></a>
+                        
+                            <a class="button-square button-social hint--top" data-hint="Twitter" title="Twitter" href="https://twitter.com/XXX" rel="me">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                        
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" title="Github" href="https://github.com/XXX" rel="me">
+                                <i class="fa fa-github-alt"></i>
+                            </a>
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Stack Overflow" title="Stack Overflow" href="https://stackoverflow.com/users/XXX/YYY" rel="me">
+                                <i class="fa fa-stack-overflow"></i>
+                            </a>
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="LinkedIn" title="LinkedIn" href="https://linkedin.com/in/XXX/" rel="me">
+                                <i class="fa fa-linkedin"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Email" title="Email" href="mailto:jibitesh.prasad@gmail.com">
+                                <i class="fa fa-envelope"></i>
+                            </a>
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a title="Blog" href="/posts">Blog</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="Projects" href="/project/">Projects</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="Contact" href="/page/contact/">Contact</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="About" href="/page/about/">About</a>
+    </li>
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container">
+        <header class="post-header">
+    <h1 class="post-title">Linux Namespaces</h1>
+    
+</header>
+
+        <div class="post-content clearfix">
+    
+
+    <p><strong>Namespaces</strong> are a feature of the linux kernel that partitions resources to let a process see only a set of resources attached to its namespace, while another set of processes sees a different set of resources. Resources can be physical or virtual in nature. The Linux Kernel provides 6 types of namespaces: <em>pid</em>, <em>net</em>, <em>mnt</em>, <em>uts</em>, <em>ipc</em> and <em>user</em>.</p>
+<p>A namespace&rsquo;s networking can range from none at all to full access to the system&rsquo;s capabilities. By turning off the network inside a namespace, you can ensure that processes running in the namespace will not be able to make connections outside of the namespace. Even when a process is compromised, it would not be able to perform actions like joining a botnet or sending spam. Another use case can be in webservers, where the parent which reads the incoming request, passes the request to a child process which would not be able to make any network calls.</p>
+<p>Coming to <em>net</em> type of namespaces, network namespaces provide a brand new network stack for all the process within the namespace and it includes <strong>network interfaces</strong>, <strong>routing tables</strong> and <strong>iptables rules</strong>.</p>
+<h2 id="network-namespaces">Network Namespaces</h2>
+<p>When creating a new process via <em><strong>clone()</strong></em> syscall, a new network namespace can be created into the new process by passing the flag <strong>CLONE_NEWNET</strong>.
+For our exercise we will be using the <strong>ip</strong> command to play around with namespaces.</p>
+<h3 id="list-network-namespaces">List Network Namespaces</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ip netns list
+</code></pre></div><p>You should be able to see all the namespaces available. If you are using the <strong>ip</strong> command, another way to view the namespaces is listing the files under <code>/var/run/netns</code>. This is because, when <strong>ip</strong> creates the network namespaces, it also creates a bind mount for it under <code>/var/run/netns</code> which allows the namespace to persist even when no processes are running within it and facilitates the manipulation of the namespace itself.</p>
+<h3 id="create-network-namespaces">Create Network Namespaces</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ip netns add ns1
+</code></pre></div><p>This creates a persistent network namespace <code>ns1</code>.</p>
+<h3 id="execution-in-network-namespace">Execution in Network Namespace</h3>
+<p>The <code>ip netns exec</code> command can be used to run network management commands within a namespace.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ip netns exec ns1 ip link list
+</code></pre></div><h2 id="lab-exercise">Lab Exercise</h2>
+<p>We will be creating a network namespace and configure</p>
+<h4 id="create-the-network-namespace">Create the network namespace</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ip netns add mynamespace
+</code></pre></div><h4 id="delete-the-network-namespace">Delete the network namespace</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ip netns del mynamespace &amp;&gt;/dev/null
+</code></pre></div><h4 id="add-a-loopback-interface">Add a loopback interface</h4>
+<p>A network namespace contains its own network interfaces, routing tables etc.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ip netns exec mynamespace ip link set dev lo up
+</code></pre></div><p>To check this interface, we will try to ping on the loopback ip.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ip netns exec mynamespace ping 127.0.0.1
+</code></pre></div><h4 id="routing-tables-in-network-namespace">Routing Tables in Network Namespace</h4>
+<p>To view the routing table of a network namespace:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ip netns exec mynamespace ip route show
+</code></pre></div><h3 id="iptables-in-network-namespace">iptables in Network Namespace</h3>
+<p>To view the iptables associated with a namespace</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ip netns exec mynamespace iptables -L
+</code></pre></div><h4 id="veth-pairing">VETH Pairing</h4>
+<p>A physical interface can only be attached to one namespace at a time. So, if the namespace owns <em>eth0</em>, which provides access to the external world, only programs within the root namespace can reach the Internet. This is where a <strong>veth patir</strong> comes in handy, when a custom network namespace would want to communicate with the external world. A <em>veth pair</em> is like a cable connecting two sides, on one side you have a virtual interface which is assigned to the root network namespace, while the other lies in the custom network namespace. Setting up their IP addresses and routing rules accordingly, plus enabling NAT on the host will be enough to provide Internet access to the custom network namespace.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># Create a veth link</span>
+ip link add v-eth1 type veth peer name v-peer1
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># Add peer-1 to mynamespace NS</span>
+ip link set v-peer1 netns mynamespace
+</code></pre></div><p>Next step would be to assign IPv4 addresses for both interface.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># Setup IP address of v-eth1.</span>
+ip add add 10.200.1.1/24 dev v-eth1
+ip link set v-eth1 up
+
+<span style="color:#75715e"># Setup IP address of v-peer1</span>
+ip netns exec mynamespace ip addr add 10.200.1.2/24 dev v-peer1
+ip netns exec mynamespace ip link set v-peer1 up
+ip netns exec mynamespace ip link set lo up <span style="color:#75715e"># Adds the loop back interface(optional)</span>
+</code></pre></div><p>Route all the external traffic leaving <code>mynamespace</code> to go through <code>v-eth1</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ip netns exec mynamespace ip route add default via 10.200.1.1
+</code></pre></div><p>The last step is to enable IPv4 forwarding in the host and enable masquerading.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># Enable IP-forwarding</span>
+echo <span style="color:#ae81ff">1</span> &gt; /proc/sys/net/ipv4/ip_forward
+
+<span style="color:#75715e"># Flush forward rules, policy DROP by default</span>
+iptables -P FORWARD DROP
+iptables -F FORWARD
+
+<span style="color:#75715e"># Flush NAT rules</span>
+iptables -t nat -F
+
+<span style="color:#75715e"># Enable masquerading of 10.200.1.0</span>
+iptables -t nat -A POSTROUTING -s 10.200.1.0/255.255.255.0 -o eth0 -j MASQUERADE
+
+<span style="color:#75715e"># Allow forwarding between eth0 and v-eth1</span>
+iptables -A FORWARD -i eth0 -o v-eth1 -j ACCEPT
+iptables -A FORWARD -o eth0 -i v-eth1 -j ACCEPT
+</code></pre></div><p>Now to test our configuration:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ip netns exec mynamespace ping 8.8.8.8
+PING 8.8.8.8 <span style="color:#f92672">(</span>8.8.8.8<span style="color:#f92672">)</span> 56<span style="color:#f92672">(</span>84<span style="color:#f92672">)</span> bytes of data.
+<span style="color:#ae81ff">64</span> bytes from 8.8.8.8: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span> time<span style="color:#f92672">=</span>48.5 ms
+<span style="color:#ae81ff">64</span> bytes from 8.8.8.8: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span> time<span style="color:#f92672">=</span>50.8 ms
+</code></pre></div><p>To view the routing table entries:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ip netns exec mynamespace ip route sh
+default via 10.200.1.1 dev v-peer1 
+10.200.1.0/24 dev v-peer1  proto kernel  scope link  src 10.200.1.2 
+</code></pre></div><h2 id="hack">HACK</h2>
+<p>Prepending <code>ip netns exec</code> to every command to run from the namespace can be tedious, a easier way is to run a bash shell and attach it to the network namespace:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ip netns exec mynamespace /bin/bash --rcfile &lt;<span style="color:#f92672">(</span>echo <span style="color:#e6db74">&#34;PS1=\&#34;namespace mynamespace&gt; \&#34;&#34;</span><span style="color:#f92672">)</span>
+namespace mynamespace&gt; ping www.google.com
+</code></pre></div>
+</div>
+
+        <footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/developer/">developer</a>, 
+            
+                <a href="/tags/linux/">linux</a>, 
+            
+                <a href="/tags/kernel/">kernel</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?text=Linux%20Namespaces&url=http%3a%2f%2fexample.org%2fposts%2flinux-namespaces%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fexample.org%2fposts%2flinux-namespaces%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+        
+            <a class="icon-google-plus" href="https://plus.google.com/share?url=http%3a%2f%2fexample.org%2fposts%2flinux-namespaces%2f"
+              onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+              <i class="fa fa-google-plus"></i>
+                <span class="hidden">Google+</span>
+            </a>
+        
+        
+    </div>
+</footer>
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a title="Mangudaigb Tech Corner" href="http://example.org/">Mangudaigb Tech Corner</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#">
+                        <i class="fa fa-angle-up"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2020 / Powered by GB</span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="http://example.org/js/jquery-1.11.3.min.js"></script>
+        <script src="http://example.org/js/jquery.fitvids.js"></script>
+        
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        
+        
+        <script src="http://example.org/js/scripts.js"></script>
+    </body>
+</html>
+
