@@ -3,12 +3,37 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://mangudaigb.github.io/project/myos/bootloader/</loc>
+    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
     <loc>https://mangudaigb.github.io/categories/</loc>
     <lastmod>2020-03-10T02:52:14+05:30</lastmod>
   </url>
   
   <url>
+    <loc>https://mangudaigb.github.io/tags/cs/</loc>
+    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mangudaigb.github.io/categories/cs/</loc>
+    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
     <loc>https://mangudaigb.github.io/tags/developer/</loc>
+    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mangudaigb.github.io/categories/fundamentals/</loc>
+    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mangudaigb.github.io/posts/internet-security-tls/</loc>
     <lastmod>2020-03-10T02:52:14+05:30</lastmod>
   </url>
   
@@ -23,12 +48,22 @@
   </url>
   
   <url>
+    <loc>https://mangudaigb.github.io/project/kubernetes/setup-kubernetes/</loc>
+    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
     <loc>https://mangudaigb.github.io/tags/linux/</loc>
     <lastmod>2020-03-10T02:52:14+05:30</lastmod>
   </url>
   
   <url>
     <loc>https://mangudaigb.github.io/categories/linux/</loc>
+    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mangudaigb.github.io/posts/linux-cgroups/</loc>
     <lastmod>2020-03-10T02:52:14+05:30</lastmod>
   </url>
   
@@ -43,7 +78,32 @@
   </url>
   
   <url>
+    <loc>https://mangudaigb.github.io/project/kubernetes/</loc>
+    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mangudaigb.github.io/project/myos/</loc>
+    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mangudaigb.github.io/tags/operating-system/</loc>
+    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mangudaigb.github.io/tags/play/</loc>
+    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
     <loc>https://mangudaigb.github.io/posts/</loc>
+    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mangudaigb.github.io/project/</loc>
     <lastmod>2020-03-10T02:52:14+05:30</lastmod>
   </url>
   

@@ -13,6 +13,25 @@
     
     
     <item>
+      <title>Internet Security: Transport Layer Security</title>
+      <link>https://mangudaigb.github.io/posts/internet-security-tls/</link>
+      <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
+      
+      <guid>https://mangudaigb.github.io/posts/internet-security-tls/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Linux Control Groups</title>
+      <link>https://mangudaigb.github.io/posts/linux-cgroups/</link>
+      <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
+      
+      <guid>https://mangudaigb.github.io/posts/linux-cgroups/</guid>
+      <description>Introduction Control Groups provide a mechanism for aggregating/partitioning sets of tasks, and all their future chilren processes into hierarchical groups with specialized behaviour alongwith the resources used be monitored and limited.
+There had been multiple efforts to provide process aggregations in the Linux Kernel, mainly for resource-tracking purposes like cpusets, CKRM/ResGroups, UserBeanCounters and virtual server namespaces. These all require the basic notion of a grouping/partitioning of processes, with newly forked process being assigned to the same group as their parent process.</description>
+    </item>
+    
+    <item>
       <title>Linux Namespaces</title>
       <link>https://mangudaigb.github.io/posts/linux-namespaces/</link>
       <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>

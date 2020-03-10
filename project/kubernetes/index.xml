@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>My Kubernetes on Mangudaigb Tech Corner</title>
+    <link>https://mangudaigb.github.io/project/kubernetes/</link>
+    <description>Recent content in My Kubernetes on Mangudaigb Tech Corner</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Jibitesh Prasad</copyright>
+    <lastBuildDate>Tue, 10 Mar 2020 02:52:14 +0530</lastBuildDate>
+    
+	<atom:link href="https://mangudaigb.github.io/project/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Kubernetes</title>
+      <link>https://mangudaigb.github.io/project/kubernetes/setup-kubernetes/</link>
+      <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
+      
+      <guid>https://mangudaigb.github.io/project/kubernetes/setup-kubernetes/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

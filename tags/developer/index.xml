@@ -13,6 +13,43 @@
     
     
     <item>
+      <title>Bootloader</title>
+      <link>https://mangudaigb.github.io/project/myos/bootloader/</link>
+      <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
+      
+      <guid>https://mangudaigb.github.io/project/myos/bootloader/</guid>
+      <description>Introduction Writing an operating system is one of the most difficult programming task. This blog series is a practical guide to writing your own x86 operating system. This series aims at educating on various</description>
+    </item>
+    
+    <item>
+      <title>Internet Security: Transport Layer Security</title>
+      <link>https://mangudaigb.github.io/posts/internet-security-tls/</link>
+      <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
+      
+      <guid>https://mangudaigb.github.io/posts/internet-security-tls/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kubernetes</title>
+      <link>https://mangudaigb.github.io/project/kubernetes/setup-kubernetes/</link>
+      <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
+      
+      <guid>https://mangudaigb.github.io/project/kubernetes/setup-kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Linux Control Groups</title>
+      <link>https://mangudaigb.github.io/posts/linux-cgroups/</link>
+      <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
+      
+      <guid>https://mangudaigb.github.io/posts/linux-cgroups/</guid>
+      <description>Introduction Control Groups provide a mechanism for aggregating/partitioning sets of tasks, and all their future chilren processes into hierarchical groups with specialized behaviour alongwith the resources used be monitored and limited.
+There had been multiple efforts to provide process aggregations in the Linux Kernel, mainly for resource-tracking purposes like cpusets, CKRM/ResGroups, UserBeanCounters and virtual server namespaces. These all require the basic notion of a grouping/partitioning of processes, with newly forked process being assigned to the same group as their parent process.</description>
+    </item>
+    
+    <item>
       <title>Linux Namespaces</title>
       <link>https://mangudaigb.github.io/posts/linux-namespaces/</link>
       <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
@@ -20,6 +57,24 @@
       <guid>https://mangudaigb.github.io/posts/linux-namespaces/</guid>
       <description>Namespaces are a feature of the linux kernel that partitions resources to let a process see only a set of resources attached to its namespace, while another set of processes sees a different set of resources. Resources can be physical or virtual in nature. The Linux Kernel provides 6 types of namespaces: pid, net, mnt, uts, ipc and user.
 A namespace&amp;rsquo;s networking can range from none at all to full access to the system&amp;rsquo;s capabilities.</description>
+    </item>
+    
+    <item>
+      <title>My Kubernetes</title>
+      <link>https://mangudaigb.github.io/project/kubernetes/</link>
+      <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
+      
+      <guid>https://mangudaigb.github.io/project/kubernetes/</guid>
+      <description>Creating a Custom Kubernetes System</description>
+    </item>
+    
+    <item>
+      <title>My OS</title>
+      <link>https://mangudaigb.github.io/project/myos/</link>
+      <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
+      
+      <guid>https://mangudaigb.github.io/project/myos/</guid>
+      <description>Creating a Custom Operating System</description>
     </item>
     
   </channel>
