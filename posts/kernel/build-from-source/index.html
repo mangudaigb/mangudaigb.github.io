@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Building Linux Kernel From Source &middot; Jibitesh Prasad</title>
+        <meta name="description" content="Introduction We will be building the linux kernel on a debian system running in Virtual Box.
+Installing Debian on Virtual Box The installation process is quite simple, so we will be talking about installing the Guest Ons on the image.
+Guest Additions of Virtual Box First update the OS.
+$ sudo apt update $ sudo apt install build-essential dkms linux-headers-$(uname -r) From the virtual machine menu, click Devices -&gt; “Insert Guest Additions CD Image” as shown on the image below:">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.66.0" />
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="Building Linux Kernel From Source">
+<meta property="og:description" content="Introduction We will be building the linux kernel on a debian system running in Virtual Box.
+Installing Debian on Virtual Box The installation process is quite simple, so we will be talking about installing the Guest Ons on the image.
+Guest Additions of Virtual Box First update the OS.
+$ sudo apt update $ sudo apt install build-essential dkms linux-headers-$(uname -r) From the virtual machine menu, click Devices -&gt; “Insert Guest Additions CD Image” as shown on the image below:">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://mangudaigb.github.io/posts/kernel/build-from-source/">
+        <link rel="stylesheet" href="https://mangudaigb.github.io/dist/styles.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
+        
+        
+        
+    </head>
+    <body>
+        
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a title="Mangudaigb Tech Corner" href="https://mangudaigb.github.io/">Mangudaigb Tech Corner</a>
+                            </h1>
+                        
+                        <a class="button-square" href="https://mangudaigb.github.io/index.xml"><i class="fa fa-rss"></i></a>
+                        
+                            <a class="button-square button-social hint--top" data-hint="Twitter" title="Twitter" href="https://twitter.com/XXX" rel="me">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                        
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" title="Github" href="https://github.com/XXX" rel="me">
+                                <i class="fa fa-github-alt"></i>
+                            </a>
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Stack Overflow" title="Stack Overflow" href="https://stackoverflow.com/users/XXX/YYY" rel="me">
+                                <i class="fa fa-stack-overflow"></i>
+                            </a>
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="LinkedIn" title="LinkedIn" href="https://linkedin.com/in/XXX/" rel="me">
+                                <i class="fa fa-linkedin"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Email" title="Email" href="mailto:jibitesh.prasad@gmail.com">
+                                <i class="fa fa-envelope"></i>
+                            </a>
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a title="Blog" href="/posts">Blog</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="Projects" href="/project/">Projects</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="Contact" href="/page/contact/">Contact</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="About" href="/page/about/">About</a>
+    </li>
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container">
+        <header class="post-header">
+    <h1 class="post-title">Building Linux Kernel From Source</h1>
+    
+</header>
+
+        <div class="post-content clearfix">
+    
+
+    <h1 id="introduction">Introduction</h1>
+<p>We will be building the linux kernel on a debian system running in Virtual Box.</p>
+<h1 id="installing-debian-on-virtual-box">Installing Debian on Virtual Box</h1>
+<p>The installation process is quite simple, so we will be talking about installing the Guest Ons on the image.</p>
+<h2 id="guest-additions-of-virtual-box">Guest Additions of Virtual Box</h2>
+<p>First update the OS.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo apt update
+$ sudo apt install build-essential dkms linux-headers-<span style="color:#66d9ef">$(</span>uname -r<span style="color:#66d9ef">)</span>
+</code></pre></div><p>From the virtual machine menu, click Devices -&gt; “Insert Guest Additions CD Image” as shown on the image below:</p>
+<p>Navigate to the directory of Guest Additions, it should be mounted at <code>/media/Guest Additions</code>. Execute the following command</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo sh ./VBoxLinuxAdditions.run --nox11
+</code></pre></div><p>Reboot after the isntallation is complete.</p>
+<h2 id="building-the-kernel">Building the kernel</h2>
+<h3 id="download-the-kernel-source">Download the kernel source</h3>
+<h3 id="extract-the-kernel-source">Extract the kernel source</h3>
+<h3 id="install-the-dependencies">Install the dependencies</h3>
+<p>Execute the following command</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo apt install build-essential libncurses-dev bison flex libssl-dev libelf-dev bc -y
+</code></pre></div><h3 id="create-a-config-file">Create a config file</h3>
+<p>Create a configuration file for the kernel features and kernel modules.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">make menuconfig
+</code></pre></div><p>As an alternate, you can copy the existing configuration of your linux isntallation</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cp -v /boot/config-<span style="color:#66d9ef">$(</span>uname -r<span style="color:#66d9ef">)</span> .config
+</code></pre></div><p>This file needs to be created inside the linux folder.</p>
+<p>You might get a certs/system_keyring.o error if you had copied the existing configuration. This because of <em>CONFIG_SYSTEM_TRUSTED_KEY</em> and <em>CONFIG_MODULE_SIG_KEY</em> entries. Execute the following command to replace them</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sed -ri <span style="color:#e6db74">&#39;/CONFIG_SYSTEM_TRUSTED_KEYS/s/=.+/=&#34;&#34;/g&#39;</span> .config
+</code></pre></div><h3 id="compile-the-kernel">Compile the kernel</h3>
+<p>Compile the source code to create a compressed kernel image</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ make
+</code></pre></div><p>This is gooing to take around thirty minutes of time.</p>
+<h3 id="install-kernel-modules">Install kernel modules</h3>
+<p>To isntall the kernel modules defined in the configuration file</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo make modules_install
+</code></pre></div><h3 id="install-the-kernel">Install the Kernel</h3>
+<p>To install the kernel</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo make install
+</code></pre></div><p>This will install three files into <em>/boot</em> directory as well as modify the kernel grub configuration</p>
+<ul>
+<li>intitramfs-&lt;kernel-version&gt;.img</li>
+<li>System.map-&lt;kernel-version&gt;</li>
+<li>vmlinuz-&lt;kernel-version&gt;</li>
+</ul>
+<h3 id="update-grub-config">Update grub config</h3>
+<p>You do not need to make these changes as make install does this. But, incase you get into issues, to modify the Grub 2 bootloader configurations</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo update-initramfs -c -k <span style="color:#ae81ff">\&lt;</span>kernel-version-number<span style="color:#ae81ff">\&gt;</span>
+$ sudo update-grub
+</code></pre></div><h3 id="reboot">Reboot</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo shutdown -r now
+</code></pre></div><h3 id="check-new-kernel-version">Check new kernel version</h3>
+<p>After reboot, check the kernel version</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ uname -mrs
+</code></pre></div>
+</div>
+
+        <footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/developer/">developer</a>, 
+            
+                <a href="/tags/linux/">linux</a>, 
+            
+                <a href="/tags/kernel/">kernel</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?text=Building%20Linux%20Kernel%20From%20Source&url=https%3a%2f%2fmangudaigb.github.io%2fposts%2fkernel%2fbuild-from-source%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmangudaigb.github.io%2fposts%2fkernel%2fbuild-from-source%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+        
+            <a class="icon-google-plus" href="https://plus.google.com/share?url=https%3a%2f%2fmangudaigb.github.io%2fposts%2fkernel%2fbuild-from-source%2f"
+              onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+              <i class="fa fa-google-plus"></i>
+                <span class="hidden">Google+</span>
+            </a>
+        
+        
+    </div>
+</footer>
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a title="Mangudaigb Tech Corner" href="https://mangudaigb.github.io/">Mangudaigb Tech Corner</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#">
+                        <i class="fa fa-angle-up"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2020 / Powered by GB</span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="https://mangudaigb.github.io/js/jquery-1.11.3.min.js"></script>
+        <script src="https://mangudaigb.github.io/js/jquery.fitvids.js"></script>
+        
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        
+        
+        <script src="https://mangudaigb.github.io/js/scripts.js"></script>
+    </body>
+</html>
+

@@ -7,10 +7,22 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Jibitesh Prasad</copyright>
-    <lastBuildDate>Tue, 10 Mar 2020 02:52:14 +0530</lastBuildDate>
+    <lastBuildDate>Wed, 30 Dec 2020 02:52:14 +0530</lastBuildDate>
     
 	<atom:link href="https://mangudaigb.github.io/tags/kernel/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Building Linux Kernel From Source</title>
+      <link>https://mangudaigb.github.io/posts/kernel/build-from-source/</link>
+      <pubDate>Wed, 30 Dec 2020 02:52:14 +0530</pubDate>
+      
+      <guid>https://mangudaigb.github.io/posts/kernel/build-from-source/</guid>
+      <description>Introduction We will be building the linux kernel on a debian system running in Virtual Box.
+Installing Debian on Virtual Box The installation process is quite simple, so we will be talking about installing the Guest Ons on the image.
+Guest Additions of Virtual Box First update the OS.
+$ sudo apt update $ sudo apt install build-essential dkms linux-headers-$(uname -r) From the virtual machine menu, click Devices -&amp;gt; “Insert Guest Additions CD Image” as shown on the image below:</description>
+    </item>
     
     <item>
       <title>Internet Security: Transport Layer Security</title>
@@ -22,30 +34,21 @@
     </item>
     
     <item>
-      <title>Kubernetes</title>
-      <link>https://mangudaigb.github.io/project/kubernetes/setup-kubernetes/</link>
-      <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
-      
-      <guid>https://mangudaigb.github.io/project/kubernetes/setup-kubernetes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Linux Control Groups</title>
-      <link>https://mangudaigb.github.io/posts/linux-cgroups/</link>
+      <link>https://mangudaigb.github.io/posts/linux/linux-cgroups/</link>
       <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
       
-      <guid>https://mangudaigb.github.io/posts/linux-cgroups/</guid>
+      <guid>https://mangudaigb.github.io/posts/linux/linux-cgroups/</guid>
       <description>Introduction Control Groups provide a mechanism for aggregating/partitioning sets of tasks, and all their future chilren processes into hierarchical groups with specialized behaviour alongwith the resources used be monitored and limited.
 There had been multiple efforts to provide process aggregations in the Linux Kernel, mainly for resource-tracking purposes like cpusets, CKRM/ResGroups, UserBeanCounters and virtual server namespaces. These all require the basic notion of a grouping/partitioning of processes, with newly forked process being assigned to the same group as their parent process.</description>
     </item>
     
     <item>
       <title>Linux Namespaces</title>
-      <link>https://mangudaigb.github.io/posts/linux-namespaces/</link>
+      <link>https://mangudaigb.github.io/posts/linux/linux-namespaces/</link>
       <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
       
-      <guid>https://mangudaigb.github.io/posts/linux-namespaces/</guid>
+      <guid>https://mangudaigb.github.io/posts/linux/linux-namespaces/</guid>
       <description>Namespaces are a feature of the linux kernel that partitions resources to let a process see only a set of resources attached to its namespace, while another set of processes sees a different set of resources. Resources can be physical or virtual in nature. The Linux Kernel provides 6 types of namespaces: pid, net, mnt, uts, ipc and user.
 A namespace&amp;rsquo;s networking can range from none at all to full access to the system&amp;rsquo;s capabilities.</description>
     </item>
@@ -66,6 +69,15 @@ A namespace&amp;rsquo;s networking can range from none at all to full access to 
       
       <guid>https://mangudaigb.github.io/project/myos/</guid>
       <description>Creating a Custom Operating System</description>
+    </item>
+    
+    <item>
+      <title>Setting Up Kubernetes on Local System</title>
+      <link>https://mangudaigb.github.io/project/kubernetes/setup-kubernetes/</link>
+      <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
+      
+      <guid>https://mangudaigb.github.io/project/kubernetes/setup-kubernetes/</guid>
+      <description></description>
     </item>
     
   </channel>

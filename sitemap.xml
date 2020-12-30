@@ -3,12 +3,72 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://mangudaigb.github.io/posts/kernel/build-from-source/</loc>
+    <lastmod>2020-12-30T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mangudaigb.github.io/categories/</loc>
+    <lastmod>2020-12-30T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mangudaigb.github.io/tags/developer/</loc>
+    <lastmod>2020-12-30T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mangudaigb.github.io/tags/kernel/</loc>
+    <lastmod>2020-12-30T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mangudaigb.github.io/categories/kernel/</loc>
+    <lastmod>2020-12-30T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mangudaigb.github.io/tags/linux/</loc>
+    <lastmod>2020-12-30T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mangudaigb.github.io/categories/linux/</loc>
+    <lastmod>2020-12-30T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mangudaigb.github.io/</loc>
+    <lastmod>2020-12-30T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mangudaigb.github.io/posts/</loc>
+    <lastmod>2020-12-30T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mangudaigb.github.io/tags/</loc>
+    <lastmod>2020-12-30T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mangudaigb.github.io/tags/2-way-ssl/</loc>
+    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
     <loc>https://mangudaigb.github.io/project/myos/bootloader/</loc>
     <lastmod>2020-03-10T02:52:14+05:30</lastmod>
   </url>
   
   <url>
-    <loc>https://mangudaigb.github.io/categories/</loc>
+    <loc>https://mangudaigb.github.io/posts/security/certificates/</loc>
+    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mangudaigb.github.io/tags/certificates/</loc>
     <lastmod>2020-03-10T02:52:14+05:30</lastmod>
   </url>
   
@@ -23,11 +83,6 @@
   </url>
   
   <url>
-    <loc>https://mangudaigb.github.io/tags/developer/</loc>
-    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
-  </url>
-  
-  <url>
     <loc>https://mangudaigb.github.io/categories/fundamentals/</loc>
     <lastmod>2020-03-10T02:52:14+05:30</lastmod>
   </url>
@@ -38,42 +93,12 @@
   </url>
   
   <url>
-    <loc>https://mangudaigb.github.io/tags/kernel/</loc>
+    <loc>https://mangudaigb.github.io/posts/linux/linux-cgroups/</loc>
     <lastmod>2020-03-10T02:52:14+05:30</lastmod>
   </url>
   
   <url>
-    <loc>https://mangudaigb.github.io/categories/kernel/</loc>
-    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mangudaigb.github.io/project/kubernetes/setup-kubernetes/</loc>
-    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mangudaigb.github.io/tags/linux/</loc>
-    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mangudaigb.github.io/categories/linux/</loc>
-    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mangudaigb.github.io/posts/linux-cgroups/</loc>
-    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mangudaigb.github.io/posts/linux-namespaces/</loc>
-    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mangudaigb.github.io/</loc>
+    <loc>https://mangudaigb.github.io/posts/linux/linux-namespaces/</loc>
     <lastmod>2020-03-10T02:52:14+05:30</lastmod>
   </url>
   
@@ -98,17 +123,42 @@
   </url>
   
   <url>
-    <loc>https://mangudaigb.github.io/posts/</loc>
-    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
-  </url>
-  
-  <url>
     <loc>https://mangudaigb.github.io/project/</loc>
     <lastmod>2020-03-10T02:52:14+05:30</lastmod>
   </url>
   
   <url>
-    <loc>https://mangudaigb.github.io/tags/</loc>
+    <loc>https://mangudaigb.github.io/project/myos/register/</loc>
+    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mangudaigb.github.io/categories/security/</loc>
+    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mangudaigb.github.io/tags/server-authentication/</loc>
+    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mangudaigb.github.io/project/kubernetes/setup-kubernetes/</loc>
+    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mangudaigb.github.io/tags/ssl/</loc>
+    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mangudaigb.github.io/categories/tls/</loc>
+    <lastmod>2020-03-10T02:52:14+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mangudaigb.github.io/tags/web-security/</loc>
     <lastmod>2020-03-10T02:52:14+05:30</lastmod>
   </url>
   

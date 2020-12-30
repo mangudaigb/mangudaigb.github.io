@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Linux Control Groups &middot; Jibitesh Prasad</title>
+        <meta name="description" content="Introduction Control Groups provide a mechanism for aggregating/partitioning sets of tasks, and all their future chilren processes into hierarchical groups with specialized behaviour alongwith the resources used be monitored and limited.
+There had been multiple efforts to provide process aggregations in the Linux Kernel, mainly for resource-tracking purposes like cpusets, CKRM/ResGroups, UserBeanCounters and virtual server namespaces. These all require the basic notion of a grouping/partitioning of processes, with newly forked process being assigned to the same group as their parent process.">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.66.0" />
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="Linux Control Groups">
+<meta property="og:description" content="Introduction Control Groups provide a mechanism for aggregating/partitioning sets of tasks, and all their future chilren processes into hierarchical groups with specialized behaviour alongwith the resources used be monitored and limited.
+There had been multiple efforts to provide process aggregations in the Linux Kernel, mainly for resource-tracking purposes like cpusets, CKRM/ResGroups, UserBeanCounters and virtual server namespaces. These all require the basic notion of a grouping/partitioning of processes, with newly forked process being assigned to the same group as their parent process.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://mangudaigb.github.io/posts/linux/linux-cgroups/">
+        <link rel="stylesheet" href="https://mangudaigb.github.io/dist/styles.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
+        
+        
+        
+    </head>
+    <body>
+        
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a title="Mangudaigb Tech Corner" href="https://mangudaigb.github.io/">Mangudaigb Tech Corner</a>
+                            </h1>
+                        
+                        <a class="button-square" href="https://mangudaigb.github.io/index.xml"><i class="fa fa-rss"></i></a>
+                        
+                            <a class="button-square button-social hint--top" data-hint="Twitter" title="Twitter" href="https://twitter.com/XXX" rel="me">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                        
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" title="Github" href="https://github.com/XXX" rel="me">
+                                <i class="fa fa-github-alt"></i>
+                            </a>
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Stack Overflow" title="Stack Overflow" href="https://stackoverflow.com/users/XXX/YYY" rel="me">
+                                <i class="fa fa-stack-overflow"></i>
+                            </a>
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="LinkedIn" title="LinkedIn" href="https://linkedin.com/in/XXX/" rel="me">
+                                <i class="fa fa-linkedin"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Email" title="Email" href="mailto:jibitesh.prasad@gmail.com">
+                                <i class="fa fa-envelope"></i>
+                            </a>
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a title="Blog" href="/posts">Blog</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="Projects" href="/project/">Projects</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="Contact" href="/page/contact/">Contact</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="About" href="/page/about/">About</a>
+    </li>
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container">
+        <header class="post-header">
+    <h1 class="post-title">Linux Control Groups</h1>
+    
+</header>
+
+        <div class="post-content clearfix">
+    
+
+    <h1 id="introduction">Introduction</h1>
+<p><em>Control Groups</em> provide a mechanism for aggregating/partitioning sets of tasks, and all their future chilren processes into hierarchical groups with specialized behaviour alongwith the resources used be monitored and limited.</p>
+<p>There had been multiple efforts to provide process aggregations in the Linux Kernel, mainly for resource-tracking purposes like <em>cpusets</em>, <em>CKRM/ResGroups</em>, <em>UserBeanCounters</em> and <em>virtual server namespaces</em>. These all require the basic notion of a grouping/partitioning of processes, with newly forked process being assigned to the same group as their parent process.</p>
+<h1 id="definitions">Definitions</h1>
+<p>A <strong>cgroup</strong> associates a set of tasks witha  set of parameters for one or more subsystems.</p>
+<p>A <strong>subsystem</strong> is a module that makes use of the task grouping facilities provided by <em>groups</em> to treat groups of tasks in particular ways. A subsytem is typically a &ldquo;resource controller&rdquo; that schedules a resource or applies per-cgroup limits.</p>
+<p>A <strong>hierarchy</strong> is a set of <em>cgroups</em> arranged in a tree, such that every task in the system is in exactly one of the cgroups in the hierarchy, and a set of subsystems.</p>
+<p>The kernel <em>cgroup</em> provides minimum essential kernel mechanisms required to efficiently implement process grouping. It has minimal impact on the system fast paths, and provides hooks for specific subsystems such as cpusets to provide additional behaviour as desired.</p>
+<p>Full details of cgroup can be read from <a href="https://www.kernel.org/doc/Documentation/cgroup-v1/cgroups.txt">here</a>.</p>
+<h1 id="cgroups">CGROUPS</h1>
+<p>The <em>cgroups</em> framework provides the following:</p>
+<ul>
+<li>Resource Limiting: A group can be configured not to exceed a specific memory limit or use more than desired amount of processors or be limited to specific peripheral devices.</li>
+<li>Prioritization: One or more groups may be configured to utilize fewer or more CPUs or disk I/O throughput.</li>
+<li>Accounting: A group&rsquo;s resource usage is monitored and measured.</li>
+<li>Control: Groups of processes can be frozen or stopped and restarted.</li>
+</ul>
+<p>The list of various subsystems are:</p>
+<ul>
+<li>blkio - This subsystem sets limits on I/O access to and from block devices such as physical drives.</li>
+<li>cpu - This subsystem sets limits on the available CPU time</li>
+<li>cpuacct - This subsystem generates automatic reports on CPU resources used by tasks in a cgroup</li>
+<li>cpuset - This subsystem assigns individual CPUs and memory nodes to tasks in a cgroup.</li>
+<li>devices - This subsytem allows or denies access to devices by tasks in a cgroup.</li>
+<li>freezer - This subsystem suspends or resumes tasks in a cgroup</li>
+<li>memory - This subsystem sets limits on memory use by tasks in a cgroup and generates automatic reports on memory resources used by those tasks.</li>
+<li>net_cls - This subsystem tags network packets with a class identifier(classid) that allows the Linux traffic controller (tc) to identify packets originating from a particular cgroup task</li>
+<li>net_prio - This subsystem provides a way to dynamically set the priority of network traffic per network interface.</li>
+<li>ns - This is the namespace subsystem.</li>
+</ul>
+<h2 id="cgroup-v1-vs-v2">CGROUP v1 vs v2</h2>
+<p><img src="/cgroups/cgroupsv1.png" alt="CGROUPS V1">
+In <em>cgroups v1</em>, each controller can have one or more cgroups under it, as well as nested groups within. A process can line in any or all of these cgroups(one per controller) and it&rsquo;s up to the user to make sure that the combination of cgroup is same.</p>
+<p><img src="/cgroups/cgroupsv2.png" alt="CGROUPS V2">
+In <em>cgroups v2</em>, there is a single hierarchy of cgroups. Each cgroup uses the control file <em>cgroup.subtree_control</em> to determine which controllers are active for the children in that particular group.</p>
+<p>Essentially, <em>cgroups v1</em> has cgroups associated with controllers whereas <em>cgroups v2</em> has controllers associated with cgroups. All the following commands are for <em>cgroup v1</em>.</p>
+<h3 id="installation">Installation</h3>
+<p>For CentOs/Red Hat execute the following</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo yum install libcgroup libcgroup-tools
+</code></pre></div><p>For Ubuntu/Debian execute the following command</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo apt install libcgroup1 cgroup-tools
+</code></pre></div><h3 id="creation">Creation</h3>
+<p>You can create a <em>cgroup</em> by simply creating a folder inside <code>/sys/fs/cgroup/memory/mangudai</code>. Here <code>memory</code> is the controller and <code>mangudai</code> is the name of the <em>cgroup</em>.</p>
+<p>You can also execute the following:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo cgcreate -g memory:mangudai
+</code></pre></div><h3 id="sample-program">Sample Program</h3>
+<p>Create the following sample program named <code>hello.sh</code>. You will be using this to check our cgroup capabilities.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/sh
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">do</span>
+    echo <span style="color:#e6db74">&#34;Hello World!&#34;</span>
+    sleep <span style="color:#ae81ff">60</span>
+<span style="color:#66d9ef">done</span>
+</code></pre></div><p>Make the script executable by <code>chmod +x hello.sh</code>. Then execute the program.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sh hello.sh &amp;
+<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span> <span style="color:#ae81ff">1456</span>
+$
+</code></pre></div><p>Here <code>1456</code> is my process id(_pid).</p>
+<h3 id="assigning-process-to-a-cgroup">Assigning process to a cgroup</h3>
+<p>The user can manually assign the <em>pid</em> to <code>/sys/fs/cgroup/memory/mangudai/cgroup.procs</code> or you can use the following command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo cgexec -g memory:mangudai hello.sh
+</code></pre></div><p>Manual assignment:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">echo <span style="color:#ae81ff">1456</span> &gt; /sys/fs/cgroup/memory/mangudai/cgroup.procs
+</code></pre></div><h3 id="verifying-the-process">Verifying the process</h3>
+<p>To verify if the process is running with our defined memory settings, you have to execute the following:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ps -o cgroup <span style="color:#ae81ff">1456</span>
+</code></pre></div><p>It will result in something like this</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">CGROUP
+6:memory:/mangudai,1:name<span style="color:#f92672">=</span>systemd:/user.slice/user-0.slice/session-1.scope
+</code></pre></div><h3 id="change-memory-limit">Change memory limit</h3>
+<p>Lets change the memory limit for the above process to 50 Bytes and see what happens.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">echo <span style="color:#ae81ff">50</span> &gt; /sys/fs/cgroup/memory/mangudai/memory.limit_in_bytes
+</code></pre></div><p>This would result in the killing of the process.</p>
+<h3 id="checking-logs">Checking Logs</h3>
+<p>You can check the logs at <code>/var/log/messages</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo tail -f /var/log/messages
+</code></pre></div><p>If you set the memory limit to 50 Bytes as mentioned above, you would see a log for the process being killed as following</p>
+<pre><code class="language-log" data-lang="log">Feb 14 10:22:40 localhost kernel: Task in /mangudai killed as a result of limit of /mangudai
+Feb 14 10:22:40 localhost kernel: memory: usage 4kB, limit 4kB, failcnt 8
+Feb 14 10:22:40 localhost kernel: memory+swap: usage 4kB, limit 9007199254740991kB, failcnt 0
+Feb 14 10:22:40 localhost kernel: kmem: usage 0kB, limit 9007199254740991kB, failcnt 0
+Feb 14 10:22:40 localhost kernel: Memory cgroup stats for /mangudai: cache:0KB rss:4KB rss_huge:0KB mapped_file:0KB swap:0KB inactive_anon:0KB active_anon:0KB inactive_file:0KB active_file:0KB unevictable:0KB
+</code></pre><h3 id="deletion">Deletion</h3>
+<p>To delete the <em>cgroup</em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo cgdelete memory:mangudai
+</code></pre></div><h2 id="hack">HACK</h2>
+<p>You can assign multiple controllers with same cgroup name to a process as follows</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo cgexec -g memory,cpu,cpuset:mangudai hello.sh &amp;
+</code></pre></div><p>You can add the controller and cgroup configurations in the /etc/cgconfig.conf file</p>
+<pre><code class="language-conf" data-lang="conf">group mangudai {
+  cpu {
+    cpu.shares = 100;
+  }
+  memory {
+    memory.limit_in_bytes = 5000000;
+  }
+  cpuset {
+      cpuset.cpus=&quot;0-5&quot;
+  }
+}
+</code></pre>
+</div>
+
+        <footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/developer/">developer</a>, 
+            
+                <a href="/tags/linux/">linux</a>, 
+            
+                <a href="/tags/kernel/">kernel</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?text=Linux%20Control%20Groups&url=https%3a%2f%2fmangudaigb.github.io%2fposts%2flinux%2flinux-cgroups%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmangudaigb.github.io%2fposts%2flinux%2flinux-cgroups%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+        
+            <a class="icon-google-plus" href="https://plus.google.com/share?url=https%3a%2f%2fmangudaigb.github.io%2fposts%2flinux%2flinux-cgroups%2f"
+              onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+              <i class="fa fa-google-plus"></i>
+                <span class="hidden">Google+</span>
+            </a>
+        
+        
+    </div>
+</footer>
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a title="Mangudaigb Tech Corner" href="https://mangudaigb.github.io/">Mangudaigb Tech Corner</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#">
+                        <i class="fa fa-angle-up"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2020 / Powered by GB</span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="https://mangudaigb.github.io/js/jquery-1.11.3.min.js"></script>
+        <script src="https://mangudaigb.github.io/js/jquery.fitvids.js"></script>
+        
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        
+        
+        <script src="https://mangudaigb.github.io/js/scripts.js"></script>
+    </body>
+</html>
+

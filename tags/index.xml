@@ -7,24 +7,15 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Jibitesh Prasad</copyright>
-    <lastBuildDate>Tue, 10 Mar 2020 02:52:14 +0530</lastBuildDate>
+    <lastBuildDate>Wed, 30 Dec 2020 02:52:14 +0530</lastBuildDate>
     
 	<atom:link href="https://mangudaigb.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>cs</title>
-      <link>https://mangudaigb.github.io/tags/cs/</link>
-      <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
-      
-      <guid>https://mangudaigb.github.io/tags/cs/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>developer</title>
       <link>https://mangudaigb.github.io/tags/developer/</link>
-      <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
+      <pubDate>Wed, 30 Dec 2020 02:52:14 +0530</pubDate>
       
       <guid>https://mangudaigb.github.io/tags/developer/</guid>
       <description></description>
@@ -33,7 +24,7 @@
     <item>
       <title>kernel</title>
       <link>https://mangudaigb.github.io/tags/kernel/</link>
-      <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
+      <pubDate>Wed, 30 Dec 2020 02:52:14 +0530</pubDate>
       
       <guid>https://mangudaigb.github.io/tags/kernel/</guid>
       <description></description>
@@ -42,9 +33,36 @@
     <item>
       <title>linux</title>
       <link>https://mangudaigb.github.io/tags/linux/</link>
-      <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
+      <pubDate>Wed, 30 Dec 2020 02:52:14 +0530</pubDate>
       
       <guid>https://mangudaigb.github.io/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>2-way ssl</title>
+      <link>https://mangudaigb.github.io/tags/2-way-ssl/</link>
+      <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
+      
+      <guid>https://mangudaigb.github.io/tags/2-way-ssl/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>certificates</title>
+      <link>https://mangudaigb.github.io/tags/certificates/</link>
+      <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
+      
+      <guid>https://mangudaigb.github.io/tags/certificates/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>cs</title>
+      <link>https://mangudaigb.github.io/tags/cs/</link>
+      <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
+      
+      <guid>https://mangudaigb.github.io/tags/cs/</guid>
       <description></description>
     </item>
     
@@ -63,6 +81,33 @@
       <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
       
       <guid>https://mangudaigb.github.io/tags/play/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>server authentication</title>
+      <link>https://mangudaigb.github.io/tags/server-authentication/</link>
+      <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
+      
+      <guid>https://mangudaigb.github.io/tags/server-authentication/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ssl</title>
+      <link>https://mangudaigb.github.io/tags/ssl/</link>
+      <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
+      
+      <guid>https://mangudaigb.github.io/tags/ssl/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>web-security</title>
+      <link>https://mangudaigb.github.io/tags/web-security/</link>
+      <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
+      
+      <guid>https://mangudaigb.github.io/tags/web-security/</guid>
       <description></description>
     </item>
     

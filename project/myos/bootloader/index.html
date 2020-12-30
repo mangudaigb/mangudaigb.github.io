@@ -4,14 +4,16 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Bootloader &middot; Jibitesh Prasad</title>
-        <meta name="description" content="Introduction Writing an operating system is one of the most difficult programming task. This blog series is a practical guide to writing your own x86 operating system. This series aims at educating on various">
+        <meta name="description" content="Introduction Writing an operating system is one of the most difficult programming task. This blog series is a practical guide at writing your own x86 operating system. This series aims at educating on various aspects of writing an Operating System and not providing a full fledged operating system.
+When a computer is turned on, it typically does not have an operating system or its loader in random-access memory(RAM). The system first loads the program from Read Only Memory(ROM) alongwith a small amount of needed data, to access the nonvolatile device or devices from which the operating system can be loaded.">
         <meta name="HandheldFriendly" content="True">
         <meta name="MobileOptimized" content="320">
         <meta name="generator" content="Hugo 0.66.0" />
         <meta name="robots" content="index,follow">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta property="og:title" content="Bootloader">
-<meta property="og:description" content="Introduction Writing an operating system is one of the most difficult programming task. This blog series is a practical guide to writing your own x86 operating system. This series aims at educating on various">
+<meta property="og:description" content="Introduction Writing an operating system is one of the most difficult programming task. This blog series is a practical guide at writing your own x86 operating system. This series aims at educating on various aspects of writing an Operating System and not providing a full fledged operating system.
+When a computer is turned on, it typically does not have an operating system or its loader in random-access memory(RAM). The system first loads the program from Read Only Memory(ROM) alongwith a small amount of needed data, to access the nonvolatile device or devices from which the operating system can be loaded.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://mangudaigb.github.io/project/myos/bootloader/">
         <link rel="stylesheet" href="https://mangudaigb.github.io/dist/styles.css">
@@ -101,7 +103,131 @@
     
 
     <h2 id="introduction">Introduction</h2>
-<p>Writing an operating system is one of the most difficult programming task. This blog series is a practical guide to writing your own x86 operating system. This series aims at educating on various</p>
+<p>Writing an operating system is one of the most difficult programming task. This blog series is a practical guide at writing your own x86 operating system. This series aims at educating on various aspects of writing an Operating System and not providing a full fledged operating system.</p>
+<p>When a computer is turned on, it typically does not have an operating system or its loader in random-access memory(RAM). The system first loads the program from Read Only Memory(ROM) alongwith a small amount of needed data, to access the nonvolatile device or devices from which the operating system can be loaded. This small program is called the <em>bootstrap loader</em>, <em>boostrap</em> or <em>bootloader</em>. All modern <em>bootloaders</em> are multi-stage bootloaders during which several programs of increasing complexity load one after the other in a process of <em>chain loading</em>.</p>
+<h2 id="types-of-bootloader">Types of Bootloader</h2>
+<p>In smaller computers or microsystems, <em>bootloader</em> is less flexible but more automatic boot loader mechanisms to ensure that the computer starts quickly and with a predetermined software configuration. When a system is started, the program counter is loaded with all zeroes which says to fetch an instruction from a specific address location, which is the ROM chip location.
+For compatibility, CPU manufacturers create software compatible with the <em>Intel 8086</em> which supported 16-bit isntruction set and had no notion of memory protection. This is why we program the bootloader in 16-bit mode and then switch up to 32-bit/64-bit modes.</p>
+<p>The first stage bootloader is required because there will be different RAM types of various sizes, so different RAMS have different intialization mechanism which needs to be taken care of before the RAM could be made available to the system. A boot sector should typically work in only 32 KB, this has been later relaxed to 64 KB of system memory and only use instruction set supported by the original 8088/8086 processors.</p>
+<p>When we create a bootable drive, earlier it was only floppy disks followed by CD-ROMs and USB drives, we write a valid boot-sector to linear address _0x7c00. This boot sector has 512 bytes of executable code and thus bootloaders are divided into stages.</p>
+<p><img src="/myos/boot-sector-1.jpg" alt="Master Boot Record sector"></p>
+<h3 id="zeroth-stage-bootloader-boot0">Zeroth Stage bootloader (boot0)</h3>
+<p>The zeroth stage bootloader resides in the bootsector and is automatically loaded by the BIOS. The job of the zeroth boot sector is to read the first stage bootloader from your bootable drive, load it to memory and jump the execution to it. The <em>boot0</em> essentially accomplishes the following tasks:</p>
+<ol>
+<li>Disable interrupts</li>
+<li>Caonicalize %CS:%EIP</li>
+<li>Load segment registers (%DS, %ES, %FS, %GS, %SS)</li>
+<li>Set the stack pointer</li>
+<li>Enable interrupts</li>
+<li>Reset the bootable drive controller</li>
+<li>Read <em>boot1</em> sectors from the bootable drive</li>
+<li>Jump to <em>boot1</em> code</li>
+</ol>
+<p>On errors the <em>boot0</em> should fail as follows:</p>
+<ol>
+<li>Notify the user of a failure condition</li>
+<li>Disable interrupts</li>
+<li>Permanently suspend progress in execution</li>
+</ol>
+<h4 id="canonicalizing-cseip">Canonicalizing %CS:%EIP</h4>
+<p>The BIOS loads the boot sector on the boot drive at linear address <em>0x7c00</em>. In real mode, this is most often represented as the <em>segment:offset</em> pair <em>0000:7c00</em>, however certain odd BIOSes actually begin execution at <em>07c0:0000</em>. An explanation of one of the earliest versions of GRUB, calls these BIOSes bogus in the explanation of <a href="https://thestarman.pcministry.com/asm/mbr/GRUB.htm">source code</a>.</p>
+<pre><code class="language-assembly" data-lang="assembly">7C4B EA507C0000    JMP     0000:7C50  ; Long Jump to the next instruction
+                                      ; because some bogus BIOSes jump to
+                                      ; 07C0:0000 instead of 0000:7C00.
+</code></pre><p>Simultaneously setting <em>%CS:%EIP</em> is accomplised with an absolute long jump instruction to a label that represents the next line of code. Example</p>
+<pre><code class="language-assembly" data-lang="assembly">ljmp    $0, $the_next_line_of_code 
+</code></pre><h5 id="loading-segment-registers">Loading Segment Registers</h5>
+<p>The recommended memory map is as follows.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">+--------+----------------------------------------+
+| <span style="color:#ae81ff">100000</span> |     Top of Memory Table                |
++-------------------------------------------------+
+| 0F0000 |     Video memory, MMIO, BIOS           |
++-------------------------------------------------+
+| 0A0000 |     Bottom of memory hole              |
++-------------------------------------------------+
+| <span style="color:#ae81ff">090000</span> |     Kernel preload<span style="color:#f92672">(</span>end: 0x9f000<span style="color:#f92672">)</span>       |
++-------------------------------------------------+
+| 00F000 |     Kernel preload<span style="color:#f92672">(</span>start: 0xf000<span style="color:#f92672">)</span>      |
++-------------------------------------------------+
+| 00E000 |     Protected mode stack<span style="color:#f92672">(</span>top: 0xf000<span style="color:#f92672">)</span>  |
++-------------------------------------------------+
+| 00C000 |     Disk buffer<span style="color:#f92672">(</span>end: 0xc7ff<span style="color:#f92672">)</span>           |
++-------------------------------------------------+
+| <span style="color:#ae81ff">008000</span> |     Disk buffer<span style="color:#f92672">(</span>start: 0x8000<span style="color:#f92672">)</span>         |
++-------------------------------------------------+
+| <span style="color:#ae81ff">007000</span> |     boot0<span style="color:#f92672">(</span>0x7c00|0x7dff<span style="color:#f92672">)</span>               |
++-------------------------------------------------+
+| <span style="color:#ae81ff">006000</span> |     Real mode stack<span style="color:#f92672">(</span>top: 0x7000<span style="color:#f92672">)</span>       |
++-------------------------------------------------+
+| <span style="color:#ae81ff">003000</span> |     boot1 <span style="color:#f92672">(</span>end: 0x31ff<span style="color:#f92672">)</span>                |
++-------------------------------------------------+
+| <span style="color:#ae81ff">001000</span> |     boot1 <span style="color:#f92672">(</span>start: 0x1000<span style="color:#f92672">)</span>              |
++-------------------------------------------------+
+| <span style="color:#ae81ff">000000</span> |     Reserved<span style="color:#f92672">(</span>real mode IVT, BIOS data<span style="color:#f92672">)</span> |
++--------+----------------------------------------+
+</code></pre></div><p>All code and data except the preloaded kernel is loaded in the first 64 kB memory. This helps in avoiding &ldquo;long jumps&rdquo; and &ldquo;far pointers&rdquo; in the bootloader code. If the kernel is larger than 64 kB, the kernel data is loaded in multiple segements outside the first 64 kB segment. To make the coding easier, it is suggested to use <em>%ES</em> to refer the segment which currently holds the portion of a kernel while <em>%DS</em> refers to the first 64 kB segment.</p>
+<pre><code class="language-assembly" data-lang="assembly">movw        myvar,  %ax     # fetch myvar from somewhere in %ds (low 64k)
+movw        %ax, %es:(%bx)  # store the value up in high memory
+</code></pre><h3 id="second-stage-bootloader">Second Stage bootloader</h3>
+<p>In the second-stage bootloader:</p>
+<ol>
+<li>Copy the boot sector data bytes to a local memory area, as they will be overwritten</li>
+<li>Find the kernel image in the FAT directory</li>
+<li>Read the kernel image into memory at 2000:0000</li>
+<li>Reset the disks system</li>
+<li>Enable the A20 line</li>
+<li>Setup the interrupt descriptor table at 0000:0000</li>
+<li>Setup the global descriptor table at 0000:0800</li>
+<li>Load the descriptor tables into the CPU</li>
+<li>Switch to protected mode</li>
+<li>Clear the prefetch queue</li>
+<li>Setup protected mode memory segments and stack for use by the kernel code</li>
+<li>Transfer control to the kernel code using a long jump</li>
+</ol>
+<h2 id="creating-the-bootloader">Creating the bootloader</h2>
+<p>Install nasm and qemu, as we will be using nasm to compile our assembly code instead of writing hex codes around. Qemu is the emulator of choice. You can also use Bosch.</p>
+<p>Let&rsquo;s write the simplest bootloader</p>
+<pre><code class="language-hex" data-lang="hex">e9 fd ff 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+[ 29 more lines with sixteen zero-bytes each ]
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 55 aa
+</code></pre><p>Instead of writing this hex code, we achieve the same with the following assembly code</p>
+<pre><code class="language-assembly" data-lang="assembly">; Infinite loop
+loop:
+    jmp loop
+
+; Fill with 510 zeros minus the size of previous code
+times 510-($-$$) db 0
+;Magic Number
+dw 0xaa55
+</code></pre><p>The qemu prompt will print <em>Booting from a disk</em> and then go into an infite loop. To validate our setup a little more, we will type &ldquo;Hello&rdquo; to the screen.</p>
+<pre><code class="language-assembly" data-lang="assembly">mov ah, 0x0e ; tty mode
+mov al, 'H'
+int 0x10
+mov al, 'e'
+int 0x10
+mov al, 'l'
+int 0x10
+int 0x10 ; 'l' is still on al, remember?
+mov al, 'o'
+int 0x10
+
+jmp $ ; jump to current address = infinite loop
+
+; padding and magic number
+times 510 - ($-$$) db 0
+dw 0xaa55
+</code></pre><p>Output:
+(Bootloader Hello)[!]
+We will read about what exactly it does later on.</p>
+<h2 id="heading"></h2>
+<p>The traditional memory layout for kernel loader is as
+(Traditional kernel image)
+It is desirable to keep the &ldquo;memory ceiling&rdquo; of the bootloader as low as possible, since some BIOSes allocate some rather large amounts of memory call the Extended BIOS Data Area, near the top of the low memory. The bootloader should use the <em>INT 12h</em> BIOS call to verify how much low memory is available.
+For modern bzImage kernel with boot protocol version &gt;= 2.02, a memory layout as follows is preferred:
+(New layout)</p>
+<h2 id="registers">Registers</h2>
+<p>The</p>
 
 </div>
 

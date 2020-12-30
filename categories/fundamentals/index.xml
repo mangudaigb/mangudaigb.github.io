@@ -18,7 +18,17 @@
       <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
       
       <guid>https://mangudaigb.github.io/project/myos/bootloader/</guid>
-      <description>Introduction Writing an operating system is one of the most difficult programming task. This blog series is a practical guide to writing your own x86 operating system. This series aims at educating on various</description>
+      <description>Introduction Writing an operating system is one of the most difficult programming task. This blog series is a practical guide at writing your own x86 operating system. This series aims at educating on various aspects of writing an Operating System and not providing a full fledged operating system.
+When a computer is turned on, it typically does not have an operating system or its loader in random-access memory(RAM). The system first loads the program from Read Only Memory(ROM) alongwith a small amount of needed data, to access the nonvolatile device or devices from which the operating system can be loaded.</description>
+    </item>
+    
+    <item>
+      <title>Registers</title>
+      <link>https://mangudaigb.github.io/project/myos/register/</link>
+      <pubDate>Tue, 10 Mar 2020 02:52:14 +0530</pubDate>
+      
+      <guid>https://mangudaigb.github.io/project/myos/register/</guid>
+      <description>Introduction Processors process data which is generally stored in memory, this reading and storing of data into memory slows down the processor as the data has to pass through the control bus and into the memory storage unit and getting the data through the same channel. To speed up the processor operations, the processor includes some internal memory storage location called Registers. These register store data elements for processing without having to access the memory.</description>
     </item>
     
   </channel>
